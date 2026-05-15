@@ -83,21 +83,55 @@ export default function SpotlightGallery() {
       >
         <div className="w-full h-full grid grid-cols-3 grid-rows-2 gap-4 p-4">
           <div className="relative overflow-hidden rounded-lg">
-            <img src="/images/hero-mountains.jpg" className="w-full h-full object-cover scale-105" alt="" />
+            <img src="/images/hero-mountains.jpg" className="w-full h-full object-cover scale-105" loading="lazy" alt="" />
             <div className="absolute inset-0 bg-[#D4F87A] mix-blend-color opacity-40" />
           </div>
           <div className="relative overflow-hidden rounded-lg row-span-2">
-            <video src="/videos/polaroid-shrine.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover scale-105" />
+            <LazyVideo src="/videos/polaroid-shrine.mp4" />
           </div>
           <div className="relative overflow-hidden rounded-lg">
-            <video src="/videos/polaroid-neon.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover scale-105" />
+            <LazyVideo src="/videos/polaroid-neon.mp4" />
           </div>
           <div className="relative overflow-hidden rounded-lg col-span-2">
-            <img src="/images/hero-mountains.jpg" className="w-full h-full object-cover scale-105" alt="" />
+            <img src="/images/hero-mountains.jpg" className="w-full h-full object-cover scale-105" loading="lazy" alt="" />
             <div className="absolute inset-0 bg-[#FFB8C5] mix-blend-color opacity-30" />
           </div>
         </div>
       </motion.div>
     </section>
+  )
+}
+
+// Lazy video: only downloads + plays when scrolled into view
+function LazyVideo({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const vid = videoRef.current
+    if (!vid) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          vid.play().catch(() => {})
+        } else {
+          vid.pause()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(vid)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      muted
+      loop
+      playsInline
+      preload="none"
+      className="w-full h-full object-cover scale-105"
+    />
   )
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-const PETAL_COUNT = 50
+const PETAL_COUNT = 20
 
 interface PetalData {
   id: number

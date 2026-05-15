@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import ScrambleText from '../components/ScrambleText'
 
@@ -92,18 +92,42 @@ export default function Journey() {
 }
 
 function JourneyCard({ title, desc, video, day }: { title: string, desc: string, video: string, day: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  // Only play video when visible in viewport — prevents 4 videos downloading at once
+  useEffect(() => {
+    const card = cardRef.current
+    const vid = videoRef.current
+    if (!card || !vid) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          vid.play().catch(() => {})
+        } else {
+          vid.pause()
+        }
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(card)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <div className="relative z-10 flex-shrink-0 flex flex-col items-center group cursor-pointer" data-cursor="hover">
+    <div ref={cardRef} className="relative z-10 flex-shrink-0 flex flex-col items-center group cursor-pointer" data-cursor="hover">
       <div className="text-[#D4F87A] font-mono text-sm tracking-[0.3em] mb-4 opacity-70">
         {day}
       </div>
       <div className="w-[280px] md:w-[400px] aspect-[4/5] relative overflow-hidden rounded-sm transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 group-hover:-translate-y-4">
         <video 
+          ref={videoRef}
           src={video} 
           muted 
-          loop 
-          autoPlay 
-          playsInline 
+          loop
+          playsInline
+          preload="none"
           className="w-full h-full object-cover grayscale opacity-60 transition-all duration-700 group-hover:grayscale-0 group-hover:opacity-100" 
         />
         {/* Glow */}
