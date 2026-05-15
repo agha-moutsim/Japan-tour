@@ -93,7 +93,7 @@ export default function About() {
 
 function TimelineNode({
   data,
-  index,
+  index: _index,
   staggerDelay,
 }: {
   data: typeof timelineData[0]
