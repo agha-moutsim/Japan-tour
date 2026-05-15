@@ -8,7 +8,6 @@ import {
   useVelocity,
   MotionValue,
 } from 'framer-motion'
-import { useIsMobile } from '../hooks/use-mobile'
 import MagneticButton from '../components/MagneticButton'
 
 // ─── Polaroid data ─────────────────────────────────────────────────────────────
@@ -25,7 +24,6 @@ const SPRING = { stiffness: 40, damping: 20, mass: 0.3 }
 // ─── Hero ──────────────────────────────────────────────────────────────────────
 export default function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const isMobile = useIsMobile()
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
@@ -116,7 +114,6 @@ export default function Hero() {
   const mountainMouseX = useTransform(mouseX, (v) => v * 4)
   const kimonoMouseX = useTransform(mouseX, (v) => v * 12)
   const kimonoMouseY = useTransform(mouseY, (v) => v * 8)
-  const polaroidMouseX = useTransform(mouseX, (v) => v * 14)
   const polaroidMouseRotate = useTransform(mouseX, (v) => v * 2)
 
   // ── Scroll to contact ─────────────────────────────────────────────────────

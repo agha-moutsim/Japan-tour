@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, type Variants } from 'framer-motion'
 
 interface SectionHeadingProps {
   text: string
@@ -7,7 +7,7 @@ interface SectionHeadingProps {
   className?: string
 }
 
-const WORD_VARIANTS = {
+const WORD_VARIANTS: Variants = {
   hidden: { y: 120, rotateX: 35, opacity: 0 },
   visible: (i: number) => ({
     y: 0,
@@ -16,7 +16,7 @@ const WORD_VARIANTS = {
     transition: {
       duration: 1.0,
       delay: i * 0.08,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
     },
   }),
 }

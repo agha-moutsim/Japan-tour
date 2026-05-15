@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, type Variants } from 'framer-motion'
 import SectionHeading from '../components/SectionHeading'
 import { GuidesIcon, FlightsIcon, TransfersIcon, HotelsIcon } from '../components/SocialIcons'
 
@@ -26,7 +26,7 @@ const cards = [
   },
 ]
 
-const CARD_VARIANTS = {
+const CARD_VARIANTS: Variants = {
   hidden: {
     opacity: 0,
     y: 60,
@@ -41,7 +41,7 @@ const CARD_VARIANTS = {
     transition: {
       duration: 1.1,
       delay: i * 0.15,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
     },
   }),
 }
